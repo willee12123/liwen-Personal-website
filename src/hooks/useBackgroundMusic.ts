@@ -1,6 +1,6 @@
 import { useRef, useState, useCallback, useEffect } from 'react'
 
-const DEFAULT_AUDIO = '/空灵轻风_no-watermark.mp3'
+const DEFAULT_AUDIO = import.meta.env.BASE_URL + '空灵轻风_no-watermark.mp3'
 
 export function useBackgroundMusic() {
   const audioRef = useRef<HTMLAudioElement | null>(null)

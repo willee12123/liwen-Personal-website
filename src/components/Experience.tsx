@@ -43,7 +43,7 @@ export default function Experience() {
       {/* Blurred background */}
       <div
         className="absolute inset-0 bg-center bg-cover bg-no-repeat blur-sm scale-110"
-        style={{ backgroundImage: "url('/hero-background-1.png')" }}
+        style={{ backgroundImage: `url(${import.meta.env.BASE_URL}hero-background-1.png)` }}
       />
       {/* Dark overlay for readability */}
       <div className="absolute inset-0 bg-black/70" />

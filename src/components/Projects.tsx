@@ -358,7 +358,7 @@ export default function Projects() {
       {/* ── Background image (full opacity, only cards/text have local dark mats) ── */}
       <div className="absolute inset-0 z-0">
         <img
-          src="/wmremove-transformed.png"
+          src={import.meta.env.BASE_URL + 'wmremove-transformed.png'}
           alt=""
           className="w-full h-full object-cover opacity-65"
         />

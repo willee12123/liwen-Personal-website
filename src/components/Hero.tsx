@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import RevealLayer from './RevealLayer'
 
-const BG_IMAGE_1 = '/hero-background-3.png'
-const BG_IMAGE_2 = '/hero-background-1.png'
+const BG_IMAGE_1 = import.meta.env.BASE_URL + 'hero-background-3.png'
+const BG_IMAGE_2 = import.meta.env.BASE_URL + 'hero-background-1.png'
 
 export default function Hero() {
   const mouseRef = useRef({ x: -999, y: -999 })
