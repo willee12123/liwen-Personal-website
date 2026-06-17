@@ -1,8 +1,9 @@
-# Liwen Personal Website — Session Summary (2026-06-17)
+# Liwen Personal Website — Session Summary (2026-06-18)
 
 ## Project Overview
 
-**GitHub:** https://github.com/willee12123/liwen-Personal-website  
+**GitHub:** https://github.com/willee12123/liwen-Personal-website (public)  
+**Live URL:** https://willee12123.github.io/liwen-Personal-website/  
 **Local path:** `c:/Users/19976/.claude/projects/liwen个人网站`  
 **Tech stack:** React 19 + TypeScript + Vite + Tailwind CSS v4 + lucide-react + framer-motion  
 **Dev server:** `npm run dev` → `http://localhost:5174`
@@ -19,15 +20,18 @@ src/
 ├── main.tsx                        # React 19 entry
 ├── index.css                       # Fonts (Inter + Playfair Display), animations
 ├── hooks/
-│   └── useBackgroundMusic.ts       # Audio toggle hook (auto-play, loop)
+│   └── useBackgroundMusic.ts       # Audio toggle hook (auto-play, user-interaction fallback)
 └── components/
     ├── Navbar.tsx                  # Fixed nav, scroll-to-section, audio toggle
     ├── Hero.tsx                    # Page 1: Home section with cursor spotlight
     ├── RevealLayer.tsx             # Canvas-based spotlight mask for Hero
     ├── Experience.tsx              # Page 2: Horizontal expanding cards
-    ├── Projects.tsx                # Page 3: Semi-circle rotating carousel ← NEW
+    ├── Projects.tsx                # Page 3: Semi-circle rotating carousel
     ├── Skills.tsx                  # Page 4: Skills matrix (placeholder)
     └── AboutMe.tsx                 # Page 5: About Me (placeholder)
+
+.github/workflows/
+└── deploy.yml                      # GitHub Actions → auto-deploy to Pages on push
 ```
 
 ---
@@ -38,7 +42,8 @@ src/
 
 - Full-screen (`100dvh`), cursor-following spotlight effect
 - Cursor tracking: `mousemove` → lerp(0.1) in RAF → Canvas radial gradient → maskImage
-- Two image layers: Base = `/hero-background-3.png`, Reveal = `/hero-background-1.png`
+- Two image layers: Base = `hero-background-3.png`, Reveal = `hero-background-1.png`
+- **IMPORTANT:** Image paths use `import.meta.env.BASE_URL + 'filename'` for GitHub Pages compatibility
 - Content:
   - Heading: **"Welcome to My"** / **"Space"** (Playfair italic, staggered blur-rise animation)
   - Subtitle: "Building global B2B platforms across supply chain finance and enterprise ecosystems"
@@ -57,7 +62,8 @@ src/
 **File:** `src/components/Experience.tsx`
 
 - Horizontal expanding card layout, `100dvh`
-- Blurred background: `/hero-background-1.png` with `blur-sm` + `bg-black/70` overlay
+- Blurred background: `hero-background-1.png` with `blur-sm` + `bg-black/70` overlay
+- **IMPORTANT:** Image path uses `import.meta.env.BASE_URL`
 - 4 cards side by side:
   - **Collapsed:** ~`flex-[0.6]`, vertical title text
   - **Expanded:** `flex-[5]`, shows year, title, company, description
@@ -77,12 +83,12 @@ src/
 
 ---
 
-## Page 3: Projects — COMPLETE (new design)
+## Page 3: Projects — UPDATED
 
 **File:** `src/components/Projects.tsx`
 
 ### Visual Design
-- **Background:** `wmremove-transformed.png` at 65% opacity, no global dark overlay
+- **Background:** `wmremove-transformed.png` at 65% opacity
 - **Heading:** "Projects" in a dark glass-morphism pill (`bg-black/50 backdrop-blur-sm rounded-3xl`) on the left
 - **Section style:** `rounded-t-[60px] -mt-14 z-10` overlapping Experience section above
 - **Background:** `#0C0C0C` near-black
@@ -91,36 +97,34 @@ src/
 
 5 project cards arranged along a **right-side semi-circle arc** that slowly rotates.
 
-#### Arc Geometry (final tuned values)
+#### Arc Geometry (DYNAMIC — computed from section height)
 
 | Parameter | Value | Notes |
 |-----------|-------|-------|
-| ARC_START | 132° | Bottom of arc — ~130px padding from section bottom |
-| ARC_END | 228° | Top of arc — ~130px padding from section top |
-| ARC_RANGE | 96° | Total arc span |
-| Card spacing | 19.2° | ARC_RANGE / TOTAL, uniform distribution |
-| Radius | 350–500px | Responsive, scales with viewport |
-| Arc center X | clamp(80vw, 86vw, 92vw) | Positioned on the right side |
-| Arc center Y | 50vh | Vertically centered for symmetric padding |
-| Rotation speed | 0.012°/ms (~0.72°/s) | Full cycle ≈ 8 minutes |
+| arcStart / arcEnd | Computed via `computeArcParams(sectionHeight, radius)` | Dynamically ensures 20% padding top & bottom |
+| Arc center X | `clamp(80vw, 86vw, 92vw)` | Positioned on the right side |
+| Arc center Y | `50vh` | Vertically centered |
+| Radius range | **220–350px** | Responsive, smaller for visible arc shape |
+| Rotation speed | **0.0096°/ms (~0.58°/s)** | 0.8× of original, full cycle ≈ 10 min |
+| CLIP_ZONE | 8° | Brief transition at edges |
+
+**How dynamic angles work:** `computeArcParams` takes section height and radius → computes `angleFromHorizontal = asin(height * 0.3 / radius)` → arcStart = 180° − angle, arcEnd = 180° + angle. Monitored via `ResizeObserver` on the section element. Default fallback: `DEFAULT_ARC` computed with `window.innerHeight` and radius 280.
 
 #### Card Design
 
 - **Size:** 290px (mobile) / 340px (desktop) wide
 - **Style:** `bg-[#0C0C0C]/92 backdrop-blur-md`, border `white/10`, `rounded-3xl`, `shadow-2xl`
 - **Content:** Project number (Playfair italic, orange), category, title, first highlight line
-- **Overlap:** Cards partially overlap due to tight angular spacing — lower cards (higher y) have higher z-index
 
 #### Rotation & Clip Animation
 
 - **Continuous rotation** via `requestAnimationFrame`, pauses when a card is expanded
-- **Seamless wrapping:** Cards that reach ARC_END wrap to ARC_START (and vice versa)
-- **Right-side clip (swallow effect):**
-  - **Bottom entry (132°–140°):** card emerges from right → `clip-path: inset(0 100% 0 0)` → `inset(0 0% 0 0)`
-  - **Middle zone (140°–220°):** fully visible, semi-circle shape clearly seen
-  - **Top exit (220°–228°):** card swallowed from right → `inset(0 0% 0 0)` → `inset(0 100% 0 0)`
-  - CLIP_ZONE = 8° at each end — brief transitions, separated by ~128° gap (exit and entry don't overlap)
-- **No opacity fade** — pure clip-path for the swallow/reveal effect
+- **Seamless wrapping:** Cards that reach arcEnd wrap to arcStart (and vice versa)
+- **Right-edge clip:**
+  - **Bottom entry:** `inset(0 100%→0 0 0)` — card emerges leftward, right side hidden first
+  - **Top exit:** `inset(0 0→100% 0 0)` — card recedes rightward, right side consumed first
+  - Only the portion extending past the arc boundary is clipped
+- **No opacity fade** — pure clip-path for the arc-edge cut effect
 
 #### Card Expansion (click)
 
@@ -139,10 +143,6 @@ src/
 | 04 | Project Title — Coming Soon | PLATFORM / ENTERPRISE | Placeholder |
 | 05 | Project Title — Coming Soon | PRODUCT / GROWTH | Placeholder |
 
-### Dependencies Added
-
-- **framer-motion** (^12.x) — for scroll-based animations, card expand/collapse transitions
-
 ---
 
 ## Page 4–5: Placeholder — TO DO
@@ -151,6 +151,38 @@ src/
 |------|------|--------|-------|
 | Skills | `src/components/Skills.tsx` | Placeholder | 2×2 matrix, 5-dot skill levels |
 | About Me | `src/components/AboutMe.tsx` | Placeholder | Avatar placeholder + bio + 4 quick-info |
+
+---
+
+## Deployment — GitHub Pages (NEW)
+
+### Configuration
+
+- **Repo:** Public (changed from private for Pages free tier)
+- **Vite base:** `/liwen-Personal-website/` in `vite.config.ts`
+- **GitHub Actions:** `.github/workflows/deploy.yml` — auto-build & deploy on push to master
+- **Workflow:** `npm ci` → `npm run build` → `upload-pages-artifact` → `deploy-pages`
+
+### Asset Path Fix
+
+All static asset paths must use `import.meta.env.BASE_URL` for GitHub Pages sub-path deployment:
+
+```ts
+// ❌ Broken on Pages:
+const img = '/hero-background-1.png'
+
+// ✅ Correct:
+const img = import.meta.env.BASE_URL + 'hero-background-1.png'
+```
+
+**Files updated:** `Hero.tsx`, `Experience.tsx`, `Projects.tsx`, `useBackgroundMusic.ts`
+
+### Image Preloading
+
+`index.html` includes `<link rel="preload">` for critical background images:
+- `hero-background-3.png` (fetchpriority="high")
+- `hero-background-1.png` (fetchpriority="high")
+- `wmremove-transformed.png`
 
 ---
 
@@ -163,17 +195,20 @@ src/
 - Center pill: Home / Experience / Projects / Skills / About Me (scroll highlight via IntersectionObserver)
 - Right: Audio toggle (Volume2/VolumeX, size 22, `p-2`)
 - Mobile: Hamburger → dropdown with all items
-- Contact Me: Removed from nav (now in Hero section only)
 
 ---
 
-## Audio System
+## Audio System — UPDATED
 
 **File:** `src/hooks/useBackgroundMusic.ts`
 
-- Audio: `/空灵轻风_no-watermark.mp3` (public folder)
-- Auto-play on load, loop, volume 0.3
-- Graceful fallback if browser blocks autoplay
+- Audio: `空灵轻风_no-watermark.mp3` (public folder)
+- **Autoplay strategy:**
+  1. Sets `preload='auto'` on Audio element
+  2. Waits for `canplay` event + 1.5s fallback timer before attempting play
+  3. If browser blocks autoplay → first user click/touch/keypress on page auto-plays
+- Loop, volume 0.3
+- `isPlayingRef` avoids stale closure issues in toggle callback
 
 ---
 
@@ -207,10 +242,9 @@ src/
 ## Next Steps (for next session)
 
 1. **Projects page** — Update cards 04–05 with real project content + images; optionally add a 6th card
-2. **Project card images** — Cards 01–03 have images; verify image URLs still work
-3. **Skills page** — Replace placeholder with real skills matrix
-4. **About Me page** — Add real photo, bio, contact info
-5. **Contact Me button** — Wire up action (email / modal / scroll to About)
-6. **Git push** — Run `git push -u origin master` from local terminal (GitHub blocked in current env)
-7. **Responsive polish** — Test mobile, adjust breakpoints as needed (especially the semi-circle on small screens)
-8. **Micro-interactions** — Optional: hover glow on cards, subtle parallax on background image
+2. **Skills page** — Replace placeholder with real skills matrix (2×2 matrix, 5-dot skill levels)
+3. **About Me page** — Add real photo, bio, contact info, 4 quick-info cards
+4. **Contact Me button** — Wire up action (email / modal / scroll to About)
+5. **Responsive polish** — Test mobile, adjust breakpoints (especially semi-circle on small screens)
+6. **Micro-interactions** — Optional: hover glow on cards, subtle parallax on background
+7. **Performance** — Consider converting PNG backgrounds to WebP for faster loading
