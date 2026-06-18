@@ -62,6 +62,29 @@
   animation: heroZoom 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* Scrollbar hidden by default, shown when scrolling */
+.scrollbar-fade {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-fade::-webkit-scrollbar {
+  width: 4px;
+  background: transparent;
+}
+.scrollbar-fade::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 2px;
+  transition: background 0.3s;
+}
+.scrollbar-fade:hover::-webkit-scrollbar-thumb,
+.scrollbar-fade:active::-webkit-scrollbar-thumb,
+.scrollbar-fade:focus-within::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+}
+.scrollbar-fade::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-anim,
   .hero-zoom {

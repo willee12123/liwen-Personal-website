@@ -6,7 +6,7 @@
 **Live URL:** https://willee12123.github.io/liwen-Personal-website/  
 **Local path:** `c:/Users/19976/.claude/projects/liwen个人网站`  
 **Tech stack:** React 19 + TypeScript + Vite + Tailwind CSS v4 + lucide-react + framer-motion  
-**Dev server:** `npm run dev` → `http://localhost:5174`
+**Dev server:** `npm run dev` → `http://localhost:5173/liwen-Personal-website/`
 
 ---
 
@@ -18,7 +18,7 @@ Single-page scroll site, 5 sections stacked vertically, fixed navbar with smooth
 src/
 ├── App.tsx                         # Main: Navbar + 5 sections, IntersectionObserver
 ├── main.tsx                        # React 19 entry
-├── index.css                       # Fonts (Inter + Playfair Display), animations
+├── index.css                       # Fonts (Inter + Playfair Display), animations, scrollbar-fade
 ├── hooks/
 │   └── useBackgroundMusic.ts       # Audio toggle hook (auto-play, user-interaction fallback)
 └── components/
@@ -26,8 +26,8 @@ src/
     ├── Hero.tsx                    # Page 1: Home section with cursor spotlight
     ├── RevealLayer.tsx             # Canvas-based spotlight mask for Hero
     ├── Experience.tsx              # Page 2: Horizontal expanding cards
-    ├── Projects.tsx                # Page 3: Semi-circle rotating carousel
-    ├── Skills.tsx                  # Page 4: Skills matrix (placeholder)
+    ├── Projects.tsx                # Page 3: Semi-circle rotating carousel (5 cards, all populated)
+    ├── Skills.tsx                  # Page 4: 3D rotating card ring with flip interaction
     └── AboutMe.tsx                 # Page 5: About Me (placeholder)
 
 .github/workflows/
@@ -63,14 +63,12 @@ src/
 
 - Horizontal expanding card layout, `100dvh`
 - Blurred background: `hero-background-1.png` with `blur-sm` + `bg-black/70` overlay
-- **IMPORTANT:** Image path uses `import.meta.env.BASE_URL`
 - 4 cards side by side:
   - **Collapsed:** ~`flex-[0.6]`, vertical title text
   - **Expanded:** `flex-[5]`, shows year, title, company, description
   - **Default:** First card expanded (`useState(0)`)
   - **Interaction:** `onMouseEnter` to switch, 500ms ease transition
 - Bottom dot indicators (click to switch)
-- Max width: `max-w-4xl`
 
 ### Card Content:
 
@@ -83,7 +81,7 @@ src/
 
 ---
 
-## Page 3: Projects — UPDATED
+## Page 3: Projects — UPDATED (2026-06-18)
 
 **File:** `src/components/Projects.tsx`
 
@@ -91,80 +89,143 @@ src/
 - **Background:** `wmremove-transformed.png` at 65% opacity
 - **Heading:** "Projects" in a dark glass-morphism pill (`bg-black/50 backdrop-blur-sm rounded-3xl`) on the left
 - **Section style:** `rounded-t-[60px] -mt-14 z-10` overlapping Experience section above
-- **Background:** `#0C0C0C` near-black
 
 ### Core Interaction: Semi-circle Rotating Carousel
 
-5 project cards arranged along a **right-side semi-circle arc** that slowly rotates.
+5 project cards (all populated with real content) arranged along a **right-side semi-circle arc** that slowly rotates.
 
 #### Arc Geometry (DYNAMIC — computed from section height)
 
 | Parameter | Value | Notes |
 |-----------|-------|-------|
-| arcStart / arcEnd | Computed via `computeArcParams(sectionHeight, radius)` | Dynamically ensures 20% padding top & bottom |
+| arcStart / arcEnd | Computed via `computeArcParams(sectionHeight, radius)` | 15% padding top & bottom |
 | Arc center X | `clamp(80vw, 86vw, 92vw)` | Positioned on the right side |
 | Arc center Y | `50vh` | Vertically centered |
-| Radius range | **220–350px** | Responsive, smaller for visible arc shape |
-| Rotation speed | **0.0096°/ms (~0.58°/s)** | 0.8× of original, full cycle ≈ 10 min |
-| CLIP_ZONE | 8° | Brief transition at edges |
+| Radius range | **220–350px** | Responsive |
+| Rotation speed | **0.0096°/ms (~0.58°/s)** | Full cycle ≈ 10 min |
+| CLIP_ZONE | 8° | Transition zone at edges |
 
-**How dynamic angles work:** `computeArcParams` takes section height and radius → computes `angleFromHorizontal = asin(height * 0.3 / radius)` → arcStart = 180° − angle, arcEnd = 180° + angle. Monitored via `ResizeObserver` on the section element. Default fallback: `DEFAULT_ARC` computed with `window.innerHeight` and radius 280.
+#### Arc-edge Transition: Smoothstep (CHANGED from clip-path)
 
-#### Card Design
+Cards at arc edges use **smoothstep easing** instead of clip-path:
+
+| Property | Center | Edge | Easing |
+|----------|--------|------|--------|
+| opacity | 1.0 | 0 | smoothstep `t²×(3−2t)` |
+| scale | 1.0 | 0.9 | via smoothstep |
+| blur | 0px | 4px | via smoothstep |
+| pointerEvents | auto | none | cutoff at smoothstep > 0.25 |
+
+#### MiniCard (on the arc)
 
 - **Size:** 290px (mobile) / 340px (desktop) wide
 - **Style:** `bg-[#0C0C0C]/92 backdrop-blur-md`, border `white/10`, `rounded-3xl`, `shadow-2xl`
 - **Content:** Project number (Playfair italic, orange), category, title, first highlight line
 
-#### Rotation & Clip Animation
+#### ExpandedCard (click → left side overlay)
 
-- **Continuous rotation** via `requestAnimationFrame`, pauses when a card is expanded
-- **Seamless wrapping:** Cards that reach arcEnd wrap to arcStart (and vice versa)
-- **Right-edge clip:**
-  - **Bottom entry:** `inset(0 100%→0 0 0)` — card emerges leftward, right side hidden first
-  - **Top exit:** `inset(0 0→100% 0 0)` — card recedes rightward, right side consumed first
-  - Only the portion extending past the arc boundary is clipped
-- **No opacity fade** — pure clip-path for the arc-edge cut effect
-
-#### Card Expansion (click)
-
-- **Click card** → rotation pauses, full-size detail card slides in on the **left side** (framer-motion `AnimatePresence`)
-- **Expanded card:** max-width 520–640px, shows number, category, title, all highlights, project images (if available)
+- **Layout:** Title → Keywords → **Project Overview** (bullet list) → **Key Contributions** (bullet list)
+- **NO images** — replaced by text content sections
+- **Section headers:** Orange (`#e8702a`), uppercase, tracked
+- **Max width:** 520–640px
 - **Dismiss:** X button or click dark backdrop → card animates back, rotation resumes
 - **Scroll lock:** body scroll disabled while expanded
 
-### Project Data (5 cards)
+### Project Data (5 cards, all populated)
 
-| # | Title | Category | Status |
+| # | Title | Keywords | Status |
 |---|-------|----------|--------|
-| 01 | Supply Chain Finance Platform Integration | PLATFORM / FINTECH SYSTEM | Complete with images |
-| 02 | Enterprise Platform Architecture | PLATFORM / SYSTEM DESIGN | Complete with images |
-| 03 | AI Workflow Automation System | AI / AUTOMATION | Complete with images |
-| 04 | Project Title — Coming Soon | PLATFORM / ENTERPRISE | Placeholder |
-| 05 | Project Title — Coming Soon | PRODUCT / GROWTH | Placeholder |
+| 01 | Global Supply Chain Finance Platform | Supply Chain Finance · Multi-country System | ✅ Complete |
+| 02 | Cross-Border E-Commerce & Enterprise System Integration | E-commerce System Integration · Enterprise Connectivity | ✅ Complete |
+| 03 | AI-Powered Trade Validation & Workflow Automation | AI Automation · Workflow Optimization | ✅ Complete |
+| 04 | Enterprise Collaboration Platform: "Xuecheng Docs 2.0" | Enterprise SaaS · Knowledge System | ✅ Complete |
+| 05 | AI-Powered Creative Suite: "AI Play" | AI Video Production · Voice Cloning | ✅ Complete |
 
 ---
 
-## Page 4–5: Placeholder — TO DO
+## Page 4: Skills — REDESIGNED (2026-06-18)
 
-| Page | File | Status | Notes |
-|------|------|--------|-------|
-| Skills | `src/components/Skills.tsx` | Placeholder | 2×2 matrix, 5-dot skill levels |
-| About Me | `src/components/AboutMe.tsx` | Placeholder | Avatar placeholder + bio + 4 quick-info |
+**File:** `src/components/Skills.tsx`
+
+### Visual Design
+- **Background:** `wmremove-transformed.png` with `blur-sm scale-110` + `bg-black/70` overlay (matching Experience page)
+- **Full screen:** `100dvh`
+
+### Core Interaction: 3D Rotating Card Ring
+
+10 skill cards standing upright in a 3D circular ring, like playing cards arranged in a circle.
+
+#### Ring Parameters
+
+| Parameter | Value | Notes |
+|-----------|-------|-------|
+| Card count | 10 | `ANGLE_STEP = 36°` |
+| Radius | 420px | `translateZ(420px)` |
+| Perspective | 1000px | Container perspective |
+| Auto-rotation | ~2.5°/s | Pauses when card is flipped |
+| Card size | 160×220px | Stands upright |
+
+#### Card Front Face
+- Dark gradient background with unique **tint color** (very subtle, ~8% opacity at top)
+- Category tag (uppercase, orange tint)
+- Skill name (centered)
+- 5-dot proficiency indicator
+
+#### Card Back Face
+- Slightly darker background with same tint
+- Category + skill name header
+- Full description text
+- Proficiency dots at bottom
+- **Scrollable** (`overflow-y-auto`) with `scrollbar-fade` class — scrollbar hidden by default, appears on hover/scroll
+
+#### Interaction
+- **Hover:** Ring auto-rotates slowly (~2.5°/s)
+- **Click card:** Ring pauses, card flips 180° (CSS `rotateY` transition, 0.6s cubic-bezier)
+- **Click again:** Card flips back, ring resumes rotation
+- **Back face scroll:** Content overflows scrollable with hidden scrollbar
+
+### Card Tint Colors (10 unique subtle colors)
+
+| # | Skill | Tint |
+|---|-------|------|
+| 1 | Product Strategy | `#e8702a` (orange) |
+| 2 | Platform Architecture | `#3b82b6` (blue) |
+| 3 | Supply Chain Finance | `#8b6b4a` (brown) |
+| 4 | Cross-border Integration | `#4a7c6b` (teal) |
+| 5 | AI Workflow Automation | `#6b5b8a` (purple) |
+| 6 | Data Analysis | `#5a8a8a` (cyan-gray) |
+| 7 | User Research | `#9a6b6b` (rose) |
+| 8 | Agile Delivery | `#7a8a5a` (olive) |
+| 9 | Stakeholder Mgmt | `#8a6a5a` (warm brown) |
+| 10 | AI Content Creation | `#6a7a8a` (slate blue) |
 
 ---
 
-## Deployment — GitHub Pages (NEW)
+## Page 5: About Me — TO DO
+
+**File:** `src/components/AboutMe.tsx` — Placeholder, not yet implemented.
+
+---
+
+## CSS Additions (index.css)
+
+### `.scrollbar-fade`
+Custom scrollbar class for Skills card back faces:
+- Scrollbar hidden by default (`scrollbar-width: none` for Firefox)
+- WebKit: 4px wide, transparent thumb by default
+- On hover/focus: thumb fades in at `rgba(255,255,255,0.15)`
+
+---
+
+## Deployment — GitHub Pages
 
 ### Configuration
-
-- **Repo:** Public (changed from private for Pages free tier)
+- **Repo:** Public
 - **Vite base:** `/liwen-Personal-website/` in `vite.config.ts`
 - **GitHub Actions:** `.github/workflows/deploy.yml` — auto-build & deploy on push to master
 - **Workflow:** `npm ci` → `npm run build` → `upload-pages-artifact` → `deploy-pages`
 
 ### Asset Path Fix
-
 All static asset paths must use `import.meta.env.BASE_URL` for GitHub Pages sub-path deployment:
 
 ```ts
@@ -175,41 +236,6 @@ const img = '/hero-background-1.png'
 const img = import.meta.env.BASE_URL + 'hero-background-1.png'
 ```
 
-**Files updated:** `Hero.tsx`, `Experience.tsx`, `Projects.tsx`, `useBackgroundMusic.ts`
-
-### Image Preloading
-
-`index.html` includes `<link rel="preload">` for critical background images:
-- `hero-background-3.png` (fetchpriority="high")
-- `hero-background-1.png` (fetchpriority="high")
-- `wmremove-transformed.png`
-
----
-
-## Navbar
-
-**File:** `src/components/Navbar.tsx`
-
-- Fixed `z-[100]`, horizontal padding matches bottom-right content (`px-5 sm:px-10 md:px-14`)
-- Left: **Wen Li** (Inter font)
-- Center pill: Home / Experience / Projects / Skills / About Me (scroll highlight via IntersectionObserver)
-- Right: Audio toggle (Volume2/VolumeX, size 22, `p-2`)
-- Mobile: Hamburger → dropdown with all items
-
----
-
-## Audio System — UPDATED
-
-**File:** `src/hooks/useBackgroundMusic.ts`
-
-- Audio: `空灵轻风_no-watermark.mp3` (public folder)
-- **Autoplay strategy:**
-  1. Sets `preload='auto'` on Audio element
-  2. Waits for `canplay` event + 1.5s fallback timer before attempting play
-  3. If browser blocks autoplay → first user click/touch/keypress on page auto-plays
-- Loop, volume 0.3
-- `isPlayingRef` avoids stale closure issues in toggle callback
-
 ---
 
 ## Images in `public/`
@@ -219,7 +245,8 @@ const img = import.meta.env.BASE_URL + 'hero-background-1.png'
 | `hero-background-1.png` | Hero reveal layer + Experience blurred bg |
 | `hero-background-2.png` | (unused currently) |
 | `hero-background-3.png` | Hero base layer |
-| `wmremove-transformed.png` | Projects section background |
+| `wmremove-transformed.png` | Projects + Skills section background |
+| `bg-5.png` | Available for use |
 | `空灵轻风_no-watermark.mp3` | Background music |
 | `bg-music.wav` | Old placeholder (can delete) |
 
@@ -235,16 +262,18 @@ const img = import.meta.env.BASE_URL + 'hero-background-1.png'
 | Display font | Playfair Display (italic) |
 | Animation easing | `cubic-bezier(0.16, 1, 0.3, 1)` |
 | Dark bg | `#0C0C0C` (near-black) |
-| Card border | `#D7E2EA` (light gray-blue) or `white/10` |
+| Card border | `white/10` or `white/[0.07]` |
+| Flip transition | 0.6s `cubic-bezier(0.16, 1, 0.3, 1)` |
+| Rotate speed (projects) | 0.0096°/ms |
+| Rotate speed (skills) | 0.0025°/ms (~2.5°/s) |
 
 ---
 
 ## Next Steps (for next session)
 
-1. **Projects page** — Update cards 04–05 with real project content + images; optionally add a 6th card
-2. **Skills page** — Replace placeholder with real skills matrix (2×2 matrix, 5-dot skill levels)
-3. **About Me page** — Add real photo, bio, contact info, 4 quick-info cards
-4. **Contact Me button** — Wire up action (email / modal / scroll to About)
-5. **Responsive polish** — Test mobile, adjust breakpoints (especially semi-circle on small screens)
-6. **Micro-interactions** — Optional: hover glow on cards, subtle parallax on background
-7. **Performance** — Consider converting PNG backgrounds to WebP for faster loading
+1. **About Me page** — Implement page 5: real photo, bio, contact info, quick-info cards
+2. **Contact Me button** — Wire up action on Hero (email / modal / scroll to About)
+3. **Skills content** — Optionally refine skill card descriptions or reorganize
+4. **Responsive polish** — Test mobile, adjust 3D ring and semi-circle on small screens
+5. **Performance** — Consider converting PNG backgrounds to WebP
+6. **Micro-interactions** — Subtle hover glow on cards, parallax on backgrounds

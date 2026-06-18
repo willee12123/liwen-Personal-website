@@ -1,0 +1,18 @@
+{
+  "name": "liwen-personal-website-interactive",
+  "sourceUrl": "https://willee12123.github.io/liwen-Personal-website/",
+  "mode": "interactive",
+  "mirrorDir": "/Users/shuqing/.codex/mochi-page-workflow/projects/liwen-personal-website-interactive/mirror",
+  "createdAt": "2026-06-17T17:00:16.902Z",
+  "updatedAt": "2026-06-17T17:00:23.151Z",
+  "runtime": {
+    "mirrorPort": 8783,
+    "mochiPort": 5181,
+    "hmrPort": 25181,
+    "mirrorPid": 54935,
+    "mochiPid": 54944,
+    "targetOrigin": "http://127.0.0.1:8783",
+    "mochiUrl": "http://127.0.0.1:5181/",
+    "startedAt": "2026-06-17T17:00:23.150Z"
+  }
+}

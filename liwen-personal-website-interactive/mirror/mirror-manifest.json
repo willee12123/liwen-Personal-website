@@ -1,0 +1,71 @@
+{
+  "source": "https://willee12123.github.io/liwen-Personal-website/",
+  "mode": "interactive",
+  "generatedAt": "2026-06-17T17:00:16.901Z",
+  "discoveredCount": 4,
+  "entries": [
+    {
+      "originalUrl": "https://willee12123.github.io/liwen-Personal-website/assets/index-CLrlY6XT.css",
+      "localPath": "assets/willee12123.github.io/liwen-Personal-website/assets/index-CLrlY6XT.css",
+      "publicPath": "/__mirror__/willee12123.github.io/liwen-Personal-website/assets/index-CLrlY6XT.css",
+      "status": "cached",
+      "bytes": 33429,
+      "reasons": [
+        "html:href"
+      ]
+    },
+    {
+      "originalUrl": "https://willee12123.github.io/liwen-Personal-website/assets/index-CrdZ6JOO.js",
+      "localPath": "assets/willee12123.github.io/liwen-Personal-website/assets/index-CrdZ6JOO.js",
+      "publicPath": "/__mirror__/willee12123.github.io/liwen-Personal-website/assets/index-CrdZ6JOO.js",
+      "status": "cached",
+      "bytes": 342642,
+      "reasons": [
+        "html:src"
+      ]
+    },
+    {
+      "originalUrl": "https://willee12123.github.io/liwen-Personal-website/favicon.svg",
+      "localPath": "assets/willee12123.github.io/liwen-Personal-website/favicon.svg",
+      "publicPath": "/__mirror__/willee12123.github.io/liwen-Personal-website/favicon.svg",
+      "status": "cached",
+      "bytes": 9522,
+      "reasons": [
+        "html:href"
+      ]
+    },
+    {
+      "originalUrl": "https://willee12123.github.io/liwen-Personal-website/hero-background-1.png",
+      "localPath": "assets/willee12123.github.io/liwen-Personal-website/hero-background-1.png",
+      "publicPath": "/__mirror__/willee12123.github.io/liwen-Personal-website/hero-background-1.png",
+      "status": 200,
+      "bytes": 2223752,
+      "reasons": [
+        "asset:index-CrdZ6JOO.js:css-url"
+      ],
+      "contentType": "image/png"
+    },
+    {
+      "originalUrl": "https://willee12123.github.io/liwen-Personal-website/hero-background-3.png",
+      "localPath": "assets/willee12123.github.io/liwen-Personal-website/hero-background-3.png",
+      "publicPath": "/__mirror__/willee12123.github.io/liwen-Personal-website/hero-background-3.png",
+      "status": 200,
+      "bytes": 2247870,
+      "reasons": [
+        "manual:runtime-background-layer"
+      ],
+      "contentType": "image/png"
+    },
+    {
+      "originalUrl": "https://willee12123.github.io/liwen-Personal-website/%E7%A9%BA%E7%81%B5%E8%BD%BB%E9%A3%8E_no-watermark.mp3",
+      "localPath": "assets/willee12123.github.io/liwen-Personal-website/空灵轻风_no-watermark.mp3",
+      "publicPath": "/__mirror__/willee12123.github.io/liwen-Personal-website/空灵轻风_no-watermark.mp3",
+      "status": 200,
+      "bytes": 6187770,
+      "reasons": [
+        "manual:runtime-audio-src"
+      ],
+      "contentType": "audio/mpeg"
+    }
+  ]
+}
