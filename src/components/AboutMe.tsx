@@ -1,59 +1,54 @@
 export default function AboutMe() {
-  return (
-    <section id="about" className="relative bg-black py-24 sm:py-32 px-5 sm:px-10 md:px-20">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="font-playfair italic text-4xl sm:text-5xl text-white mb-16 text-center">
-          About Me
-        </h2>
+  const bgImage = import.meta.env.BASE_URL + 'bg-5.png'
+  const videoSrc = import.meta.env.BASE_URL + '7473396393260519424.mp4'
 
-        <div className="flex flex-col md:flex-row gap-10 md:gap-16 items-center md:items-start">
-          {/* Avatar placeholder */}
-          <div className="shrink-0 w-40 h-40 sm:w-48 sm:h-48 rounded-2xl bg-white/[0.05] border border-white/10 flex items-center justify-center overflow-hidden">
-            <svg
-              width="64"
-              height="64"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1"
-              className="text-white/30"
+  return (
+    <section
+      id="about"
+      className="relative h-[100dvh] flex flex-col items-center pt-16 sm:pt-20 md:pt-24 px-5 sm:px-10 md:px-16 lg:px-24 overflow-hidden"
+      style={{
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
+      {/* Dark overlay */}
+      <div className="absolute inset-0 bg-black/60" />
+
+      {/* Title */}
+      <h2 className="relative z-10 font-playfair italic text-4xl sm:text-5xl text-white text-center shrink-0">
+        About Me
+      </h2>
+
+      {/* Blocks — centered in remaining space */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto flex-1 flex items-center">
+        <div className="w-full flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-10">
+          {/* Left: Video */}
+          <div className="flex-1 aspect-[4/3] md:aspect-auto md:h-[44vh] lg:h-[48vh] rounded-3xl border border-white/10 overflow-hidden shadow-2xl">
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full h-full object-cover"
             >
-              <circle cx="12" cy="8" r="4" />
-              <path d="M4 20c0-4 4-7 8-7s8 3 8 7" />
-            </svg>
+              <source src={videoSrc} type="video/mp4" />
+            </video>
           </div>
 
-          {/* Bio text */}
-          <div className="flex flex-col gap-4 text-center md:text-left">
-            <p className="text-white/70 text-sm sm:text-base leading-relaxed">
-              I'm a geologist with over 7 years of field and research experience
-              spanning sedimentary basins, structural mapping, and geospatial
-              analysis. My work bridges traditional fieldwork with modern
-              computational tools.
-            </p>
-            <p className="text-white/50 text-sm sm:text-base leading-relaxed">
-              When I'm not in the field or at the microscope, I build interactive
-              web tools that make geological data more accessible — from 3D
-              terrain viewers to fossil record databases. I believe that
-              understanding Earth's history helps us make better decisions for
-              its future.
-            </p>
-
-            {/* Quick info */}
-            <div className="grid grid-cols-2 gap-3 mt-4 text-left">
-              {[
-                { label: 'Location', value: 'Denver, CO' },
-                { label: 'Focus', value: 'Sedimentology' },
-                { label: 'Years in Field', value: '7+' },
-                { label: 'Publications', value: '12' },
-              ].map((info) => (
-                <div key={info.label}>
-                  <span className="text-[#e8702a] text-xs font-medium tracking-wider uppercase">
-                    {info.label}
-                  </span>
-                  <p className="text-white/80 text-sm mt-0.5">{info.value}</p>
-                </div>
-              ))}
+          {/* Right: Self-intro text */}
+          <div className="flex-1 md:h-[44vh] lg:h-[48vh] rounded-3xl border border-white/10 bg-black/50 backdrop-blur-sm flex items-center justify-center p-8 sm:p-10 lg:p-14 shadow-2xl">
+            <div className="text-white text-sm sm:text-base leading-relaxed text-center md:text-left flex flex-col gap-4">
+              <p>
+                I'm a product professional who builds scalable B2B platforms – from AI‑powered workflows and system integrations to cross‑border financing solutions. I turn complex business needs into reusable capabilities, drive data‑informed decisions, and coordinate multicultural teams across time zones.
+              </p>
+              <p>
+                Outside work, travel fuels my curiosity, fitness keeps me grounded, and my four cats remind me to find joy in small moments. I'm always eager to try new things – whether a sport, a gadget, or a side project.
+              </p>
+              <p>
+                That restless curiosity drives my product philosophy: never settle, always ask "what if," and deliver value with empathy.
+              </p>
             </div>
           </div>
         </div>

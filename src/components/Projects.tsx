@@ -411,8 +411,7 @@ export default function Projects() {
             Projects
           </h2>
           <p className="text-white/40 text-sm sm:text-base mt-2 max-w-xs sm:max-w-sm">
-            Selected work in platform design, cross-border systems, and AI
-            workflows
+            Fintech Platform, Enterprise SAAS, AI workflows
           </p>
         </div>
         {/* Hint */}

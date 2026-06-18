@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { ChevronsRight } from 'lucide-react'
 
 /* ────────────────────────────────────────────
    Skill card data — 10 cards around the ring
@@ -14,74 +15,74 @@ interface SkillCard {
 
 const SKILL_CARDS: SkillCard[] = [
   {
-    name: 'Product Strategy',
+    name: 'B2B Platform Product Ownership',
     category: 'Product',
     level: 5,
     tint: '#e8702a',
-    detail: 'End-to-end product strategy definition, market research, competitive analysis, and roadmap planning. Led product vision for global supply chain finance platform serving 70+ countries.',
+    detail: 'Owned end‑to‑end product lifecycle for Olea\'s supply chain finance platform – from customer onboarding, asset registration, and dynamic pricing to auto‑reconciliation.\n\nLed the 0‑to‑1 build of core modules (client management, asset management, capital matching), serving 70+ countries and 25+ funders.\n\nDefined product roadmap, prioritised backlog, and coordinated cross‑team resources to deliver key milestones on schedule.',
   },
   {
-    name: 'Platform Architecture',
-    category: 'Technical',
+    name: 'AI‑Powered Workflow Automation',
+    category: 'AI',
     level: 5,
     tint: '#3b82b6',
-    detail: 'Scalable multi-country, multi-currency platform design. Defined architecture for financing lifecycle: onboarding → asset management → funding → settlement.',
+    detail: 'Designed an AI Trade Validation workflow using OCR + LLM to extract and validate invoice fields (date, number, amount), reducing manual review work by ~60% and cutting per‑asset review time from 15–20 min to under 5 min.\n\nBuilt a requirement‑analysis Skill that automatically retrieves historical features and similar solutions when new requests come in.\n\nCreated PRD auto‑generation and visual demo‑generation Skills, accelerating documentation and prototyping while improving cross‑team alignment.',
   },
   {
-    name: 'Supply Chain Finance',
-    category: 'Domain',
-    level: 5,
-    tint: '#8b6b4a',
-    detail: 'Deep expertise in cross-border supply chain finance. Designed invoice processing systems handling 10k+ invoices/day, 500k+ invoices financing scale.',
-  },
-  {
-    name: 'Cross-border Integration',
-    category: 'Technical',
-    level: 4,
-    tint: '#4a7c6b',
-    detail: 'Integrated major global platforms (Amazon, Target, TJX) via API, EDI, RPA. Built flexible integration framework for enterprise connectivity.',
-  },
-  {
-    name: 'AI Workflow Automation',
-    category: 'Technical',
-    level: 4,
-    tint: '#6b5b8a',
-    detail: 'AI-powered trade validation: OCR + LLM document extraction, automated audit workflows. Reduced manual review time from 20min → 5min, 60% efficiency gain.',
-  },
-  {
-    name: 'Data Analysis',
+    name: 'Data‑Driven Decision Making',
     category: 'Analytics',
     level: 4,
-    tint: '#5a8a8a',
-    detail: 'Python, SQL, GIS for quantitative analysis. Data-driven product decision-making backed by statistical methods and visualization.',
+    tint: '#8b6b4a',
+    detail: 'Analysed transaction data for Amazon SC financing, handling 10,000+ daily invoice records and over 500,000 invoices cumulatively.\n\nUsed SQL and Python to monitor platform performance, identify bottlenecks, and prioritise feature improvements based on usage patterns.\n\nConducted quantitative user research and A/B‑like tests (e.g., on coverage growth) to refine product strategies at Meituan.',
   },
   {
-    name: 'User Research',
-    category: 'Design',
+    name: 'System Integration & API Design',
+    category: 'Technology',
     level: 4,
-    tint: '#9a6b6b',
-    detail: 'User interviews, usability testing, competitor analysis (Notion, Google Docs, Feishu). Role-based UX optimization that drove adoption 20%→75%.',
+    tint: '#4a7c6b',
+    detail: 'Architected integration solutions with Amazon, Target, and TJX – flexibly using API, RPA, and file transfers for order, invoice, payment, and reconciliation data flows.\n\nBuilt a scalable asset‑creation process that supports multi‑currency, multi‑country, and multi‑asset‑type management across diverse partners.\n\nFamiliar with EDI, RESTful APIs, and automated data pipelines; ensured seamless connectivity between external platforms and internal financing systems.',
   },
   {
-    name: 'Agile Delivery',
-    category: 'Process',
+    name: 'Cross‑Functional & Cross‑Border Collaboration',
+    category: 'Communication',
+    level: 5,
+    tint: '#6b5b8a',
+    detail: 'Coordinated with client business/tech teams and internal R&D, risk, legal, and operations to independently drive complex projects across time zones.\n\nWorked daily with teams in Singapore, India, Vietnam, and the UK – using English as the working language for requirement discussions and project syncs.\n\nAt Meituan, aligned product, design, engineering, QA, and operations to migrate enterprise content collaboration habits, raising product coverage from 20% to 75%.',
+  },
+  {
+    name: 'Product Strategy & Go‑to‑Market',
+    category: 'Strategy',
+    level: 4,
+    tint: '#5a8a8a',
+    detail: 'Defined the strategic direction for Meituan\'s "Xuecheng Document 2.0" – benchmarked against Notion, Google Docs, and Feishu – and drove a 75% adoption rate within 3 months.\n\nDesigned tiered user research and usability tests for different roles and scenarios, shaping feature priorities.\n\nPlanned phased rollouts and training campaigns to accelerate enterprise migration, achieving coverage growth from 20% to 75%.',
+  },
+  {
+    name: 'Complex Business Architecture',
+    category: 'Design',
+    level: 5,
+    tint: '#9a6b6b',
+    detail: 'Modeled the full financing lifecycle (customer admission, asset registration, application, risk review, post‑loan management) into reusable platform capabilities.\n\nAbstracted diverse partner business models into a unified dynamic‑pricing and intelligent capital‑matching engine, enhancing system extensibility and reusability.\n\nDesigned a permission system, template marketplace, and document‑referencing features for Meituan\'s large‑scale content collaboration (1.05M new docs/month).',
+  },
+  {
+    name: 'Project Delivery & Milestone Management',
+    category: 'Execution',
     level: 4,
     tint: '#7a8a5a',
-    detail: 'Cross-functional coordination across engineering, risk, legal, and operations. Defined product ownership model for efficient delivery.',
+    detail: 'Independently delivered the Amazon SC financing integration, ensuring on‑time go‑live despite multiple external dependencies and regulatory checks.\n\nManaged priority trade‑offs and resource allocation across parallel workstreams (e.g., asset management, auto‑reconciliation, AI validation).\n\nMaintained rigorous milestone tracking and risk mitigation, consistently meeting quarterly release commitments at both Olea and Meituan.',
   },
   {
-    name: 'Stakeholder Mgmt',
-    category: 'Leadership',
-    level: 3,
+    name: 'AI‑Native Exploration',
+    category: 'Innovation',
+    level: 4,
     tint: '#8a6a5a',
-    detail: 'Managing stakeholders across global teams. Balancing business needs with technical constraints in enterprise environments.',
+    detail: 'Pioneered AI‑native ways of working: automated requirement analysis, PRD drafting, and interactive demo generation – shifting the team from experience‑driven to knowledge‑driven processes.\n\nBuilt a knowledge‑reuse Skill that reduced repetitive research and handover overhead.\n\nExperimented with LLM‑based document parsing and rule‑based validation, laying the groundwork for broader AI adoption across the product lifecycle.',
   },
   {
-    name: 'AI Content Creation',
-    category: 'Creative',
-    level: 3,
+    name: 'Global Stakeholder Management',
+    category: 'International',
+    level: 5,
     tint: '#6a7a8a',
-    detail: 'AI video production pipeline: script → storyboard → AI editing → dubbing. Voice cloning & processing for multimedia content. YouTube @Kumi-u7y.',
+    detail: 'Operated in a truly global supply‑chain finance platform covering 70+ countries, 25+ funders, and 40+ partner institutions.\n\nNavigated multi‑jurisdictional regulatory and compliance requirements while designing financing scenarios for Amazon, Target, and TJX.\n\nLed cross‑time‑zone meetings, wrote bilingual PRDs and integration specs, and built trust with overseas partners through clear, proactive communication.',
   },
 ]
 
@@ -115,7 +116,10 @@ function DotBar({ level, max = 5 }: { level: number; max?: number }) {
 export default function Skills() {
   const [flippedIndex, setFlippedIndex] = useState<number | null>(null)
   const [ringRotation, setRingRotation] = useState(0)
+  const [isHovering, setIsHovering] = useState(false)
+  const [isBoosting, setIsBoosting] = useState(false)
   const rotationRef = useRef(0)
+  const speedRef = useRef(1)
   const rafRef = useRef<number>(0)
   const isPaused = flippedIndex !== null
 
@@ -128,8 +132,8 @@ export default function Skills() {
     const tick = (now: number) => {
       const dt = Math.min(now - lastTime, 50)
       lastTime = now
-      // ~2.5°/s — gentle but noticeable rotation
-      rotationRef.current = (rotationRef.current + 0.0025 * dt) % 360
+      // Normal: ~2.5°/s, Boost: ~18°/s
+      rotationRef.current = (rotationRef.current + 0.0025 * speedRef.current * dt) % 360
       setRingRotation(rotationRef.current)
       rafRef.current = requestAnimationFrame(tick)
     }
@@ -137,6 +141,16 @@ export default function Skills() {
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
   }, [isPaused])
+
+  /* ---- Speed boost handlers ---- */
+  const startBoost = () => {
+    speedRef.current = 7
+    setIsBoosting(true)
+  }
+  const stopBoost = () => {
+    speedRef.current = 1
+    setIsBoosting(false)
+  }
 
   /* ---- Flip handler ---- */
   const handleCardClick = (index: number) => {
@@ -171,17 +185,14 @@ export default function Skills() {
         </p>
 
         {/* ── 3D Ring scene ── */}
-        <div className="flex-1 flex items-center justify-center overflow-hidden">
+        <div
+          className="flex-1 flex items-center justify-center overflow-hidden"
+          onMouseEnter={() => setIsHovering(true)}
+          onMouseLeave={() => { setIsHovering(false); stopBoost() }}
+        >
           <div
-            className="relative"
-            style={{
-              perspective: '1000px',
-              width: '100%',
-              height: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
+            className="relative w-full h-full flex items-center justify-center"
+            style={{ perspective: '1000px' }}
           >
             {/* The rotating ring */}
             <div
@@ -237,7 +248,7 @@ export default function Skills() {
                           {card.category}
                         </span>
                         {/* Skill name */}
-                        <span className="text-white text-base sm:text-lg font-semibold text-center leading-snug">
+                        <span className="text-white text-sm sm:text-base font-semibold text-center leading-snug">
                           {card.name}
                         </span>
                         {/* Level indicator */}
@@ -247,35 +258,59 @@ export default function Skills() {
                       {/* ── Back face ── */}
                       <div
                         className="absolute inset-0 rounded-2xl border border-white/10
-                          flex flex-col p-5 shadow-xl shadow-black/40 overflow-y-auto scrollbar-fade"
+                          flex flex-col p-5 shadow-xl shadow-black/40 overflow-y-auto scrollbar-fade bg-[#0C0C0C]"
                         style={{
                           backfaceVisibility: 'hidden',
                           transform: 'rotateY(180deg)',
-                          background: `linear-gradient(180deg, ${card.tint}15 0%, ${card.tint}05 30%, #111 100%)`,
+                          borderTopColor: `${card.tint}50`,
+                          borderTopWidth: '3px',
                         }}
                       >
                         {/* Header */}
-                        <span className="text-[#e8702a] text-[10px] tracking-[0.15em] uppercase font-medium mb-1">
+                        <span className="text-[#e8702a] text-[9px] tracking-[0.15em] uppercase font-medium mb-1">
                           {card.category}
                         </span>
-                        <span className="text-white text-sm font-semibold mb-3">
+                        <span className="text-white text-xs font-semibold mb-2">
                           {card.name}
                         </span>
 
                         {/* Detail text */}
-                        <p className="text-white/55 text-xs leading-relaxed">
+                        <p className="text-white text-[10px] leading-relaxed whitespace-pre-line">
                           {card.detail}
                         </p>
 
                         {/* Level */}
                         <div className="pt-2 flex items-center justify-between">
-                          <span className="text-white/25 text-[10px]">Proficiency</span>
+                          <span className="text-white text-[9px]">Proficiency</span>
                           <DotBar level={card.level} />
                         </div>
                       </div>
                     </div>
                   </div>
                 )})}
+            </div>
+
+            {/* Boost button — right side, visible on hover */}
+            <div
+              className={`absolute right-4 top-1/2 -translate-y-1/2 transition-opacity duration-300 ${
+                isHovering && !isPaused ? 'opacity-100' : 'opacity-0 pointer-events-none'
+              }`}
+            >
+              <button
+                onMouseDown={startBoost}
+                onMouseUp={stopBoost}
+                onMouseLeave={stopBoost}
+                onTouchStart={startBoost}
+                onTouchEnd={stopBoost}
+                className={`w-11 h-11 rounded-full flex items-center justify-center transition-all duration-200 ${
+                  isBoosting
+                    ? 'bg-[#e8702a] text-white shadow-lg shadow-[#e8702a]/40 scale-110'
+                    : 'bg-white/10 text-white/60 hover:bg-white/20 hover:text-white'
+                }`}
+                aria-label="Accelerate rotation"
+              >
+                <ChevronsRight size={20} />
+              </button>
             </div>
           </div>
         </div>
