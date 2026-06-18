@@ -6,18 +6,13 @@ import { X } from 'lucide-react'
    Types
    ──────────────────────────────────────────── */
 
-interface ProjectImages {
-  col1Top: string
-  col1Bottom: string
-  col2: string
-}
-
 interface Project {
   number: string
   category: string
   title: string
   highlights: string[]
-  images?: ProjectImages
+  overview: string[]
+  contributions: string[]
 }
 
 /* ────────────────────────────────────────────
@@ -27,69 +22,109 @@ interface Project {
 const PROJECTS: Project[] = [
   {
     number: '01',
-    category: 'PLATFORM / FINTECH SYSTEM',
-    title: 'Supply Chain Finance Platform Integration',
+    category: 'FinTech Platform · Multi-country System',
+    title: 'Global Supply Chain Finance Platform',
     highlights: [
-      'Amazon / Target / TJX integration',
-      'API / EDI / RPA / file-based systems',
-      '10k invoices/day processing',
-      '500k+ invoices financing scale',
+      'Global supply chain finance platform',
+      'End-to-end financing lifecycle',
+      'Multi-country / multi-currency architecture',
+      'AI-driven workflow automation',
     ],
-    images: {
-      col1Top:
-        'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055344_5eff02e0-87a5-41ce-b64f-eb08da8f33db.png&w=1280&q=85',
-      col1Bottom:
-        'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055431_11d841fd-8b41-46a5-82e4-b04f2407a7d8.png&w=1280&q=85',
-      col2: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055451_e317bf2d-28d4-48cc-86b0-6f72f25b6327.png&w=1280&q=85',
-    },
+    overview: [
+      'Led core product design of a global supply chain finance platform serving enterprise clients and financial institutions',
+      'Built end-to-end financing lifecycle including onboarding, asset management, funding allocation, pricing, and settlement',
+    ],
+    contributions: [
+      'Designed full financing workflow: customer onboarding → asset registration → financing approval → repayment lifecycle',
+      'Built scalable platform architecture supporting multi-country, multi-currency, and multi-partner operations',
+      'Designed dynamic pricing and automated reconciliation mechanisms to improve financial efficiency and transparency',
+      'Defined product ownership model and coordinated cross-functional delivery (engineering, risk, legal, operations)',
+      'Supported platform handling large-scale financial transactions across global supply chain ecosystem',
+    ],
   },
   {
     number: '02',
-    category: 'PLATFORM / SYSTEM DESIGN',
-    title: 'Enterprise Platform Architecture',
+    category: 'E-commerce System Integration · Enterprise Connectivity',
+    title: 'Cross-Border E-Commerce & Enterprise System Integration',
     highlights: [
-      'Credit lifecycle system design',
-      'Multi-country / multi-currency architecture',
-      'Dynamic pricing + auto reconciliation',
-      'Platform scalability design',
+      'Amazon / Target / TJX platform integration',
+      'API / EDI / RPA / file-based pipelines',
+      '~10,000 invoices/day processing',
+      '500,000+ invoices financing scale',
     ],
-    images: {
-      col1Top:
-        'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055654_911201c5-36d9-4bc6-bac7-331adfce159f.png&w=1280&q=85',
-      col1Bottom:
-        'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055723_5ceda0b8-d9c2-4665-b2e3-83ba19ba76d1.png&w=1280&q=85',
-      col2: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055753_adc5dcbd-a8e6-49c0-b43a-9b030d835cea.png&w=1280&q=85',
-    },
+    overview: [
+      'Designed and delivered integration solutions connecting global e-commerce platforms and supply chain finance systems',
+      'Enabled seamless data exchange across enterprise systems using API, EDI, RPA, and file-based pipelines',
+    ],
+    contributions: [
+      'Integrated major global platforms (e.g., Amazon, Target, TJX) into financing ecosystem',
+      'Designed flexible integration framework supporting API, EDI, RPA, and structured file transfer methods',
+      'Built high-throughput invoice processing system supporting ~10,000 invoices per day',
+      'Accumulated processing scale exceeding 500,000+ invoices for financing operations',
+      'Standardized integration approach across multiple enterprise clients to improve deployment efficiency',
+    ],
   },
   {
     number: '03',
-    category: 'AI / AUTOMATION',
-    title: 'AI Workflow Automation System',
+    category: 'AI Automation · Workflow Optimization',
+    title: 'AI-Powered Trade Validation & Workflow Automation',
     highlights: [
       'AI Trade Validation system',
       'OCR + LLM document extraction',
       'Automated audit workflow',
       '60% efficiency improvement',
     ],
-    images: {
-      col1Top:
-        'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055759_963cfb0b-4bd1-4b0f-9d0a-09bd6cf95b2f.png&w=1280&q=85',
-      col1Bottom:
-        'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_060108_438f781a-9846-4dcc-89ab-c4e6cb830f5b.png&w=1280&q=85',
-      col2: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055818_9d062121-ad7e-46b9-999a-1a6a692ef1ee.png&w=1280&q=85',
-    },
+    overview: [
+      'Built AI-driven automation system for trade document validation in supply chain finance scenarios',
+      'Applied OCR and large language models to automate document extraction and compliance checks',
+    ],
+    contributions: [
+      'Designed AI trade validation workflow: document ingestion → field extraction → rule validation → approval decision',
+      'Applied OCR + LLM to extract key invoice fields (date, number, amount) and validate consistency',
+      'Reduced manual audit workload by ~60%, significantly improving operational efficiency',
+      'Shortened average document review time from 15–20 minutes to under 5 minutes',
+      'Improved accuracy and consistency of financial document verification process',
+    ],
   },
   {
     number: '04',
-    category: 'PLATFORM / ENTERPRISE',
-    title: 'Project Title — Coming Soon',
-    highlights: ['Details to be provided'],
+    category: 'Enterprise SaaS · Knowledge System',
+    title: 'Enterprise Collaboration Platform: "Xuecheng Docs 2.0"',
+    highlights: [
+      'Meituan internal collaboration platform',
+      'Permission management + template marketplace',
+      'Adoption from 20% → 75% in 3 months',
+      '1M+ documents per month',
+    ],
+    overview: [
+      'Contributed to the design and growth of Meituan\'s internal enterprise collaboration platform "Xuecheng Docs 2.0"',
+      'Focused on core collaboration capabilities and enterprise-scale document management system',
+    ],
+    contributions: [
+      'Designed core modules including permission management, template marketplace, and document referencing system',
+      'Conducted user research and competitor analysis (Notion, Google Docs, Feishu Docs)',
+      'Improved product usability through role-based user experience optimization and testing',
+      'Drove platform adoption from ~20% to 75% within 3 months of launch',
+      'Supported large-scale content ecosystem handling over 1M+ documents per month',
+    ],
   },
   {
     number: '05',
-    category: 'PRODUCT / GROWTH',
-    title: 'Project Title — Coming Soon',
-    highlights: ['Details to be provided'],
+    category: 'AI Video Production · Voice Cloning',
+    title: 'AI-Powered Creative Suite: "AI Play"',
+    highlights: [
+      'End-to-end AI video production pipeline',
+      'AI voice cloning & processing system',
+      'YouTube channel @Kumi-u7y',
+      'Multi-modal AI creative workflow',
+    ],
+    overview: [
+      'Independently developed an end-to-end AI-driven creative suite to explore and validate the application of generative AI in multimedia content creation, spanning from automated video production to personalized voice synthesis.',
+    ],
+    contributions: [
+      'Full-Funnel AI Video Production Pipeline: Architected and executed a complete video creation workflow leveraging multi-modal AI tools. Automated the entire process from script outlining, storyboard generation, and visual asset creation, to AI-powered video editing, dubbing, and final publishing. Successfully launched a dedicated YouTube channel (@Kumi-u7y) to showcase the resulting content.',
+      'AI Voice Cloning & Processing System: Designed and deployed a custom skill/automation that accepts audio/video files or web links for advanced voice processing. Implemented voice separation and high-fidelity voice cloning, enabling rapid generation of synthetic speech for non-commercial applications such as video dubbing and narration.',
+    ],
   },
 ]
 
@@ -147,23 +182,35 @@ function getArcPosition(
   const x = Math.cos(rad) * radius
   const y = Math.sin(rad) * radius
 
-  // ── Arc-edge clip (right side) ──
-  // Bottom (entry): card clipped from right, emerges leftward into arc
-  // Top (exit):    card clipped from right, recedes rightward out of arc
-  // Middle:        fully visible
-  let clipRight = 0
+  // ── Arc-edge smoothstep transition ──
+  // Bottom (entry): fades in with scale + blur as card enters the arc
+  // Top (exit):    fades out with scale + blur as card leaves the arc
+  // Middle:        fully visible (smoothstep = 1)
+  let clipFactor = 0
   if (angle < arcStart + CLIP_ZONE) {
-    // Bottom: entering — clipRight 100→0, left portion appears first
-    const t = (angle - arcStart) / CLIP_ZONE // 0 at edge → 1 at end
-    clipRight = (1 - t) * 100 // 100% → 0%
+    // Bottom: entering — clipFactor 1→0
+    clipFactor = 1 - (angle - arcStart) / CLIP_ZONE
   } else if (angle > arcEnd - CLIP_ZONE) {
-    // Top: exiting — clipRight 0→100, right portion consumed first
-    const t = (angle - (arcEnd - CLIP_ZONE)) / CLIP_ZONE // 0 at start → 1 at exit
-    clipRight = t * 100 // 0% → 100%
+    // Top: exiting — clipFactor 0→1
+    clipFactor = (angle - (arcEnd - CLIP_ZONE)) / CLIP_ZONE
   }
 
-  // Cards lower on screen (higher y) overlap those above them
-  return { x, y, zIndex: Math.round(y) + 100, opacity: 1, clipRight }
+  clipFactor = Math.max(0, Math.min(1, clipFactor))
+
+  // Smoothstep easing: t² × (3 − 2t)
+  const t = 1 - clipFactor
+  const smoothstep = t * t * (3 - 2 * t)
+
+  return {
+    x,
+    y,
+    zIndex: Math.round(y) + 100,
+    opacity: smoothstep,
+    scale: 0.9 + 0.1 * smoothstep,
+    blur: (1 - smoothstep) * 4,
+    pointerEvents: smoothstep > 0.25 ? 'auto' : 'none',
+    clipRight: 0,
+  }
 }
 
 /* ────────────────────────────────────────────
@@ -230,42 +277,35 @@ function ExpandedCard({ project, onClose }: { project: Project; onClose: () => v
         {project.title}
       </h3>
 
-      {/* Highlights */}
-      <ul className="mt-6 sm:mt-8 space-y-2.5">
-        {project.highlights.map((h, i) => (
-          <li key={i} className="flex items-start gap-3 text-white/55 text-sm sm:text-base">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#e8702a]/50 mt-2 flex-shrink-0" />
-            {h}
-          </li>
-        ))}
-      </ul>
+      {/* Project Overview */}
+      <div className="mt-6 sm:mt-8">
+        <h4 className="text-[#e8702a] text-xs sm:text-sm font-semibold uppercase tracking-[0.15em] mb-3">
+          Project Overview
+        </h4>
+        <ul className="space-y-2.5">
+          {project.overview.map((item, i) => (
+            <li key={i} className="flex items-start gap-3 text-white/55 text-sm sm:text-base">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#e8702a]/50 mt-2 flex-shrink-0" />
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
 
-      {/* Images (if available) */}
-      {project.images && (
-        <div className="mt-8 sm:mt-10 flex gap-3 sm:gap-4">
-          <div className="w-[40%] flex flex-col gap-3 sm:gap-4">
-            <img
-              src={project.images.col1Top}
-              alt=""
-              className="w-full rounded-2xl sm:rounded-3xl object-cover"
-              style={{ height: 'clamp(80px, 10vw, 150px)' }}
-            />
-            <img
-              src={project.images.col1Bottom}
-              alt=""
-              className="w-full rounded-2xl sm:rounded-3xl object-cover"
-              style={{ height: 'clamp(100px, 14vw, 200px)' }}
-            />
-          </div>
-          <div className="w-[60%]">
-            <img
-              src={project.images.col2}
-              alt=""
-              className="w-full h-full rounded-2xl sm:rounded-3xl object-cover min-h-[200px]"
-            />
-          </div>
-        </div>
-      )}
+      {/* Key Contributions */}
+      <div className="mt-6 sm:mt-8">
+        <h4 className="text-[#e8702a] text-xs sm:text-sm font-semibold uppercase tracking-[0.15em] mb-3">
+          Key Contributions
+        </h4>
+        <ul className="space-y-2.5">
+          {project.contributions.map((item, i) => (
+            <li key={i} className="flex items-start gap-3 text-white/55 text-sm sm:text-base">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#e8702a]/50 mt-2 flex-shrink-0" />
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
     </motion.div>
   )
 }
@@ -396,15 +436,16 @@ export default function Projects() {
               key={i}
               className="absolute"
               style={{
-                transform: `translate(${pos.x}px, ${pos.y}px)`,
+                transform: `translate(${pos.x}px, ${pos.y}px) scale(${pos.scale})`,
+                transformOrigin: 'center center',
                 left: '-170px', // half card width (340px / 2)
                 top: '-80px',
                 opacity: pos.opacity,
                 zIndex: pos.zIndex,
-                clipPath:
-                  pos.clipRight > 0
-                    ? `inset(0 ${pos.clipRight}% 0 0)`
-                    : 'none',
+                filter: `blur(${pos.blur}px)`,
+                pointerEvents: pos.pointerEvents as React.CSSProperties['pointerEvents'],
+                willChange: 'transform, opacity, filter',
+                clipPath: 'none',
               }}
             >
               <MiniCard project={project} onClick={() => handleExpand(i)} />
