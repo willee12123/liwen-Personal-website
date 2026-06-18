@@ -1,5 +1,5 @@
 export default function AboutMe() {
-  const bgImage = import.meta.env.BASE_URL + 'bg-5.png'
+  const bgImage = import.meta.env.BASE_URL + 'bg-5.webp'
   const videoSrc = import.meta.env.BASE_URL + '7473396393260519424.mp4'
 
   return (

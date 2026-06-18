@@ -171,7 +171,7 @@ export default function Skills() {
       {/* Blurred background */}
       <div
         className="absolute inset-0 bg-center bg-cover bg-no-repeat blur-sm scale-110"
-        style={{ backgroundImage: `url(${import.meta.env.BASE_URL}wmremove-transformed.png)` }}
+        style={{ backgroundImage: `url(${import.meta.env.BASE_URL}wmremove-transformed.webp)` }}
       />
       <div className="absolute inset-0 bg-black/70" />
 
