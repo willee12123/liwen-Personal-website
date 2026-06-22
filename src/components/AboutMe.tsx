@@ -4,6 +4,7 @@ export default function AboutMe() {
   const bgImage = import.meta.env.BASE_URL + 'bg-5.webp'
   const videoSrc = import.meta.env.BASE_URL + '7473396393260519424.mp4'
   const sectionRef = useRef<HTMLElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
   const [shouldLoad, setShouldLoad] = useState(false)
 
   /* ---- Lazy load video when section is near viewport ---- */
@@ -18,12 +19,21 @@ export default function AboutMe() {
           observer.disconnect()
         }
       },
-      { rootMargin: '400px' } // Start loading 400px before scrolling into view
+      { rootMargin: '400px' }
     )
 
     observer.observe(el)
     return () => observer.disconnect()
   }, [])
+
+  /* ---- Explicitly trigger play when video is ready to load ---- */
+  useEffect(() => {
+    if (shouldLoad && videoRef.current) {
+      videoRef.current.play().catch(() => {
+        // Autoplay may be blocked in rare cases — no-op, user can tap
+      })
+    }
+  }, [shouldLoad])
 
   return (
     <section
@@ -48,19 +58,19 @@ export default function AboutMe() {
       {/* Blocks — centered in remaining space */}
       <div className="relative z-10 w-full max-w-7xl mx-auto flex-1 flex items-center">
         <div className="w-full flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-10">
-          {/* Left: Video — lazy loaded */}
+          {/* Left: Video — always rendered, preload switched on near viewport */}
           <div className="flex-1 aspect-[4/3] md:aspect-auto md:h-[44vh] lg:h-[48vh] rounded-3xl border border-white/10 overflow-hidden shadow-2xl bg-black/30">
-            {shouldLoad && (
-              <video
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="w-full h-full object-cover"
-              >
-                <source src={videoSrc} type="video/mp4" />
-              </video>
-            )}
+            <video
+              ref={videoRef}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload={shouldLoad ? 'auto' : 'none'}
+              className="w-full h-full object-cover"
+            >
+              <source src={videoSrc} type="video/mp4" />
+            </video>
           </div>
 
           {/* Right: Self-intro text */}
